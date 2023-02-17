@@ -11,6 +11,7 @@ class Course(models.Model):
     description = models.TextField(verbose_name='описание')
 
     students = models.ManyToManyField(User, verbose_name='ученики', **NULLABLE)
+    lessons = models.ManyToManyField('Lesson', verbose_name='уроки', **NULLABLE)
 
     class Meta:
         verbose_name = 'курс'
