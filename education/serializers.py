@@ -11,12 +11,13 @@ class LessonSerializer(serializers.ModelSerializer):
             'preview',
             'description',
             'video_url',
+            'owner_lesson'
         )
 
 
 class CourseSerializer(serializers.ModelSerializer):
     number_of_lessons = serializers.SerializerMethodField()
-    lessons = LessonSerializer(many=True)
+    lessons = LessonSerializer(many=True, read_only=True)
 
     class Meta:
         model = Course
@@ -26,7 +27,8 @@ class CourseSerializer(serializers.ModelSerializer):
             'description',
             'students',
             'lessons',
-            'number_of_lessons'
+            'number_of_lessons',
+            'owner_course'
         )
 
     def get_number_of_lessons(self, instance):

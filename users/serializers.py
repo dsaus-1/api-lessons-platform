@@ -1,5 +1,5 @@
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainSerializer
 
 from finance.models import Payment
 from users.models import User
@@ -24,3 +24,5 @@ class UserSerializer(serializers.ModelSerializer):
             'payment'
         )
 
+    def validate_password(self, value):
+        return make_password(value)
