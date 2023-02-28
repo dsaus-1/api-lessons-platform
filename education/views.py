@@ -10,10 +10,9 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     permission_classes = [SuperPerms | ModeratorPerms | OwnerCoursePerm]
 
-    def create(self, request, *args, **kwargs):
-        request.data['owner_course'] = request.user.pk
-        answer = super().create(request, *args, **kwargs)
-        return answer
+    def perform_create(self, serializer):
+        """ Переопределяем, чтобы сохранился owner_lesson"""
+        return serializer.save(owner_course=self.request.user)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -38,10 +37,10 @@ class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
     permission_classes = [SuperPerms]
 
-    def create(self, request, *args, **kwargs):
-        request.data['owner_lesson'] = request.user.pk
-        answer = super().create(request, *args, **kwargs)
-        return answer
+    def perform_create(self, serializer):
+        """ Переопределяем, чтобы сохранился owner_lesson"""
+        return serializer.save(owner_lesson=self.request.user)
+
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
     serializer_class = LessonSerializer
