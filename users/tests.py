@@ -8,7 +8,7 @@ class UserTestCase(APITestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.user = User(email='test@gmail.com')
+        self.user = User(email='test@gmail.com', id=1)
         self.user.set_password('159753qwerty')
         self.user.is_staff = True
         self.user.is_superuser = True
@@ -19,6 +19,12 @@ class UserTestCase(APITestCase):
 
         self.access_token = response.json().get('access')
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
+    def tearDown(self):
+        super().tearDown()
+
+
+
 
     def test_user_create(self):
         response = self.client.post('/users/',
@@ -45,7 +51,7 @@ class UserTestCase(APITestCase):
             )
 
     def test_user_update(self):
-        response = self.client.put('/users/6/', {"email": "test@gmail.com",
+        response = self.client.put('/users/1/', {"email": "test@gmail.com",
                                                  "password": "159753qwerty",
                                                  "phone": 132132132})
 
@@ -61,7 +67,7 @@ class UserTestCase(APITestCase):
         )
 
     def test_user_detail(self):
-        response = self.client.get('/users/4/')
+        response = self.client.get('/users/1/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(
             response.json(),
@@ -74,7 +80,7 @@ class UserTestCase(APITestCase):
         )
 
     def test_user_delete(self):
-        response = self.client.delete('/users/3/')
+        response = self.client.delete('/users/1/')
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 

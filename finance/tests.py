@@ -9,7 +9,7 @@ from datetime import date
 class PaymentCourseTestCase(APITestCase):
     def setUp(self) -> None:
         super().setUp()
-        self.user = User(email='test@gmail.com')
+        self.user = User(email='test@gmail.com', id=1)
         self.user.set_password('159753qwerty')
         self.user.is_staff = True
         self.user.is_superuser = True
@@ -44,7 +44,7 @@ class PaymentCourseTestCase(APITestCase):
             response.json(),
             [{
                 "user": 1,
-                "payment_course": 1,
+                "payment_course": 7,
                 "date_payment": str(date.today()),
                 "payment_sum": 1000.0,
                 "payment_method": "cash"
@@ -84,8 +84,8 @@ class PaymentLessonTestCase(APITestCase):
         self.assertEqual(
             response.json(),
             [{
-                "user": 1,
-                "payment_lesson": 1,
+                "user": 4,
+                "payment_lesson": 4,
                 "date_payment": str(date.today()),
                 "payment_sum": 100.0,
                 "payment_method": "money transfer"

@@ -69,7 +69,7 @@ class CourseTestCase(APITestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.user = User(email='test@gmail.com')
+        self.user = User(email='test@gmail.com', id=1)
         self.user.set_password('159753qwerty')
         self.user.save()
 
@@ -106,14 +106,14 @@ class CourseTestCase(APITestCase):
                 "students": [],
                 "lessons": [],
                 "number_of_lessons": 0,
-                "owner_course": 3,
+                "owner_course": 1,
                 "subscription": "Unsubscribed"
                 }]
         )
 
     def test_course_delete(self):
         self.test_course_create()
-        response = self.client.delete('/course/2/')
+        response = self.client.delete('/course/5/')
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -121,7 +121,7 @@ class CourseTestCase(APITestCase):
 class CourseSuperuserTestCase(APITestCase):
     def setUp(self) -> None:
         super().setUp()
-        self.user = User(email='test@gmail.com')
+        self.user = User(email='test@gmail.com', id=1)
         self.user.set_password('159753qwerty')
         self.user.is_staff = True
         self.user.is_superuser = True
@@ -159,7 +159,7 @@ class CourseSuperuserTestCase(APITestCase):
                 "students": [],
                 "lessons": [],
                 "number_of_lessons": 0,
-                "owner_course": 3,
+                "owner_course": 1,
                 "subscription": "Unsubscribed"
             }]
         )
