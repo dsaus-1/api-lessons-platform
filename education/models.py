@@ -9,6 +9,7 @@ class Course(models.Model):
     title = models.CharField(max_length=100, verbose_name='название')
     preview = models.ImageField(upload_to='course/', verbose_name='аватар', **NULLABLE)
     description = models.TextField(verbose_name='описание')
+    price = models.FloatField(default=100, verbose_name='Стоимость курса')
 
     students = models.ManyToManyField(User, verbose_name='ученики', **NULLABLE)
     lessons = models.ManyToManyField('Lesson', verbose_name='уроки', **NULLABLE)
@@ -26,6 +27,7 @@ class Lesson(models.Model):
     preview = models.ImageField(upload_to='lesson/', verbose_name='аватар', **NULLABLE)
     description = models.TextField(verbose_name='описание')
     video_url = models.URLField(verbose_name='ссылка на видео')
+    price = models.FloatField(default=100, verbose_name='Стоимость урока')
 
     students = models.ManyToManyField(User, verbose_name='ученики', **NULLABLE)
     owner_lesson = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', **NULLABLE, related_name='owner_lesson_get')

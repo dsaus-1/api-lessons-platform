@@ -15,9 +15,19 @@ class Payment(models.Model):
     METHOD_CASH = 'cash'
     METHOD_TRANSFER = 'money transfer'
 
+    STATUS = (
+        ('created', 'создан'),
+        ('confirmed', 'подтвержден')
+    )
+
+    CREATED = 'created'
+    CONFIRMED = 'confirmed'
+
     date_payment = models.DateField(auto_now_add=True, verbose_name='дата оплаты')
     payment_sum = models.FloatField(verbose_name='сумма оплаты')
     payment_method = models.CharField(max_length=30, choices=METHODS, verbose_name='способ оплаты')
+    status = models.CharField(max_length=20, default=CREATED, choices=STATUS, verbose_name='Статус оплаты')
+    url = models.URLField(verbose_name='Ссылка на оплату', **NULLABLE)
 
     payment_course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='оплаченный курс', **NULLABLE)
     payment_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='оплаченный урок', **NULLABLE)

@@ -13,6 +13,7 @@ class LessonSerializer(serializers.ModelSerializer):
             'title',
             'preview',
             'description',
+            'price',
             'video_url',
             'owner_lesson'
         )
@@ -42,6 +43,7 @@ class CourseSerializer(serializers.ModelSerializer):
             'title',
             'preview',
             'description',
+            'price',
             'students',
             'lessons',
             'number_of_lessons',
