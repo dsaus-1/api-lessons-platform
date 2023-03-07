@@ -1,8 +1,13 @@
+from datetime import datetime
+
+import pytz
 from rest_framework import viewsets, generics
 
+from config import settings
 from education.models import Course, Lesson
 from education.permissions import ModeratorPerms, SuperPerms, OwnerCoursePerm, OwnerLessonPerm
 from education.serializers import CourseSerializer, LessonSerializer
+from education.tasks import check_course_update
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -12,7 +17,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         """ Переопределяем, чтобы сохранился owner_lesson"""
-        return serializer.save(owner_course=self.request.user)
+        return serializer.save(owner_course=self.request.user, time_update=datetime.now().astimezone(pytz.timezone(settings.TIME_ZONE)))
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -20,6 +25,9 @@ class CourseViewSet(viewsets.ModelViewSet):
             return queryset
         return queryset.filter(owner_course=self.request.user)
 
+    def perform_update(self, serializer):
+        self.object = serializer.save()
+        check_course_update.delay(self.object.pk)
 
 
 class LessonListView(generics.ListAPIView):
@@ -46,6 +54,11 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
     serializer_class = LessonSerializer
     permission_classes = [OwnerLessonPerm | ModeratorPerms | SuperPerms]
     queryset = Lesson.objects.all()
+
+    def perform_update(self, serializer):
+        self.object = serializer.save()
+        check_course_update.delay(self.object.pk)
+
 
 
 

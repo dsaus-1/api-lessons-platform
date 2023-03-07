@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     'users',
     'finance',
     'subscribe',
-    'drf_yasg'
+    'drf_yasg',
+    'django_celery_beat',
+
 ]
 
 MIDDLEWARE = [
@@ -152,6 +154,11 @@ AUTH_USER_MODEL = 'users.User'
 # LOGIN_REDIRECT_URL = '/'
 # LOGOUT_REDIRECT_URL = '/'
 
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -166,3 +173,7 @@ SIMPLE_JWT = {
 }
 
 TERMINAL_KEY = os.getenv('TERMINAL_KEY')
+TERMINAL_PASSWORD = os.getenv('TERMINAL_PASSWORD')
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'

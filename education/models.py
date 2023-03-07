@@ -10,6 +10,7 @@ class Course(models.Model):
     preview = models.ImageField(upload_to='course/', verbose_name='аватар', **NULLABLE)
     description = models.TextField(verbose_name='описание')
     price = models.FloatField(default=100, verbose_name='Стоимость курса')
+    time_update = models.DateTimeField(verbose_name='Время обновления', **NULLABLE)
 
     students = models.ManyToManyField(User, verbose_name='ученики', **NULLABLE)
     lessons = models.ManyToManyField('Lesson', verbose_name='уроки', **NULLABLE)

@@ -57,9 +57,10 @@ class PaymentCourseAPIView(APIView):
         request = requests.post('https://securepay.tinkoff.ru/v2/Init/', json=data)
 
         if request.json()["Success"] == True:
-            payment_obj.payment_url = request.json()["PaymentURL"]
+            payment_obj.url = request.json()["PaymentURL"]
+            payment_obj.payment_id_tinkoff = request.json()["PaymentId"]
             payment_obj.save()
 
-        return Response({"url":request.json()["PaymentURL"], "data": request.json()})
+        return Response({"url": request.json()["PaymentURL"], "data": request.json()})
 
 
