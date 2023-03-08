@@ -1,9 +1,12 @@
+from celery import shared_task
+
 from config import settings
 from finance.models import Payment
 import requests
 import hashlib
 
 
+@shared_task
 def check_status_payment():
     payment = Payment.objects.filter(payment_method=Payment.METHOD_TRANSFER, status=Payment.CREATED)
 
