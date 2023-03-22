@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('NAME_DB'),
         'HOST': os.getenv('HOST_DB'),
-        'PORT': 5433,
+        'PORT': 5432,
         'USER': os.getenv('USER_DB'),
         'PASSWORD': os.getenv('PASSWORD_DB'),
     }
@@ -176,5 +176,5 @@ TERMINAL_KEY = os.getenv('TERMINAL_KEY')
 TERMINAL_PASSWORD = os.getenv('TERMINAL_PASSWORD')
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://localhost:6380/0'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

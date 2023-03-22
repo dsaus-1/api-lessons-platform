@@ -12,8 +12,8 @@ class Course(models.Model):
     price = models.FloatField(default=100, verbose_name='Стоимость курса')
     time_update = models.DateTimeField(verbose_name='Время обновления', **NULLABLE)
 
-    students = models.ManyToManyField(User, verbose_name='ученики', **NULLABLE)
-    lessons = models.ManyToManyField('Lesson', verbose_name='уроки', **NULLABLE)
+    students = models.ManyToManyField(User, verbose_name='ученики')
+    lessons = models.ManyToManyField('Lesson', verbose_name='уроки')
     owner_course = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', **NULLABLE, related_name='owner_course_get')
 
     class Meta:
@@ -30,7 +30,7 @@ class Lesson(models.Model):
     video_url = models.URLField(verbose_name='ссылка на видео')
     price = models.FloatField(default=100, verbose_name='Стоимость урока')
 
-    students = models.ManyToManyField(User, verbose_name='ученики', **NULLABLE)
+    students = models.ManyToManyField(User, verbose_name='ученики')
     owner_lesson = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', **NULLABLE, related_name='owner_lesson_get')
 
     class Meta:

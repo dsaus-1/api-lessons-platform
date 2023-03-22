@@ -1,0 +1,40 @@
+version: "3.18"
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - .:/docker-entrypoint-initdb.d
+
+  redis:
+    image: "redis"
+
+    ports:
+      - "6380:6379"
+
+    volumes:
+      - ./redis-data:/var/lib/redis
+
+  api:
+    build:
+      context: .
+    tty: false
+    volumes:
+      - .:/code
+    restart:  on-failure
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+
